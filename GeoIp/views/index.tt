@@ -1,0 +1,42 @@
+<div id="page">
+      <div id="content">
+        <div id="header">
+          <h1>Geo IP</h1>
+          <h2>Give your IP a location.</h2>
+          <br/>
+        </div>
+  <form>
+    <div>
+      Enter IP<br/>
+      <input type="text" />
+      <input type="submit" />
+    </div>
+  </form>
+  <span></span>
+<script>
+
+    $("form").submit(function() {
+      $.ajax({ url: '/geo2ip/'+$("input:first").val()+'/'})
+        .success( function( data ) {
+            var text = '';
+            if (data!=null) {
+                if (data.country!=null&&data.country!='') {
+                    text = text + 'Country:'+data.country+'<br/>';
+                }
+                if (data.city!=null&&data.city!='') {
+                    text = text + 'City: '+data.city+"<br/>";
+                }
+                if (data.latitude!=null&&data.latitude!=''&&data.longitude!=null&&data.longitude!=''){
+                    text = text+'<img src="http://maps.google.com/maps/api/staticmap?center='
+                        +data.latitude+','+data.longitude
+                        +'&zoom=12&size=512x512&maptype=roadmap&sensor=false"><br/>';
+                }
+            }
+            $("span").html(text).show();
+        });
+      return false;
+  });
+
+</script>
+      </div>
+</div>
