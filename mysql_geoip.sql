@@ -6,8 +6,7 @@ CREATE TABLE blocks (
     locId INT(15) UNSIGNED NOT NULL
 );
 
-create unique index blocks_01 on blocks (startIpNum asc, endIpNum desc);
-create unique index blocks_02 on blocks (startIpNum desc, endIpNum asc);
+create unique index blocks_01 on blocks (endIpNum asc);
  
 CREATE TABLE location (
     locId INT(15) UNSIGNED NOT NULL,
