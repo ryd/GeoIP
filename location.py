@@ -25,15 +25,15 @@ cursor = conn.cursor ()
 cursor.execute ("""
 select 
     l.country, l.region, l.city, l.postalCode, 
-    l.latitude, l.longitude i
+    l.latitude, l.longitude 
 from 
-    blocks as b, 
+    blocks as b left join 
     location as l 
-where 
-    b.startIpNum < %s and 
-    b.endIpNum > %s and 
-    b.locId = l.locId
-""", (ipNum, ipNum))
+on
+    (b.locId = l.locId) 
+    where b.endIpNum >= %s 
+    limit 1
+""", (ipNum))
 row = cursor.fetchone ()
 print row
 cursor.close ()

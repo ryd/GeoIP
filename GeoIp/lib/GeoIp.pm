@@ -17,8 +17,8 @@ get '/' => sub {
 set serializer => 'JSON';
 get '/geo2ip/:ip/' => sub {
   my $ipnumber = ip2ipn(params->{ip});
-  my $sth = database->prepare("select l.country, l.region, l.city, l.postalCode, l.latitude, l.longitude from blocks as b, location as l where b.startIpNum < ? and b.endIpNum > ? and b.locId = l.locId");
-  $sth->execute($ipnumber, $ipnumber);
+  my $sth = database->prepare("select l.country, l.region, l.city, l.postalCode, l.latitude, l.longitude from blocks as b left join location as l on (b.locId = l.locId) where b.endIpNum >= ? limit 1");
+  $sth->execute($ipnumber);
   $sth->fetchrow_hashref();
 };
 
